@@ -16,6 +16,10 @@ import { RouterLink } from '@angular/router';
         <button type="button" routerLink="/" class="rounded border px-3 py-2 hover:bg-gray-50">
           ← Retour accueil
         </button>
+
+        <button routerLink="/login">Login</button>
+        <button routerLink="/shop/products">Products</button>
+        <button routerLink="/shop/rating">Product Rating</button>
       </nav>
     </section>
   `,
