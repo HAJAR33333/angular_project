@@ -10,6 +10,8 @@ import { productsReducer } from './app/state/products/products.reducer';
 import { AuthEffects } from './app/state/auth/auth.effects'; 
 import { ProductsEffects } from './app/state/products/products.effects';
 import { provideHttpClient } from '@angular/common/http';
+import { ratingReducer } from './app/state/product-rating/rating.reducer';
+import { RatingEffects } from './app/state/product-rating/rating.effects';
 
 async function main() {
   if (environment.useMsw) {
@@ -21,8 +23,8 @@ async function main() {
     providers: [
       provideRouter(routes),
       provideHttpClient(),          
-      provideStore({ auth: authReducer, products: productsReducer }),
-      provideEffects([AuthEffects, ProductsEffects]), 
+      provideStore({ auth: authReducer, products: productsReducer,  rating: ratingReducer }),
+      provideEffects([AuthEffects, ProductsEffects, RatingEffects]), 
     ],
   }).catch(err => console.error(err));
 }
