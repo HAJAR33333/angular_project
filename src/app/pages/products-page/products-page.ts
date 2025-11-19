@@ -10,11 +10,12 @@ import {
 } from '../../state/products/products.selectors';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-products-page',
-  imports: [CommonModule, MatCardModule, FormsModule],
+  imports: [CommonModule, MatCardModule, FormsModule, RouterLink],
   template: `
     <h2>Products</h2>
 
@@ -45,6 +46,8 @@ import { FormsModule } from '@angular/forms';
           <option value="-name">Name Z → A</option>
         </select>
       </label>
+
+        <button routerLink="/shop/rating">Product Rating</button>
 
     </div>
 
