@@ -16,7 +16,7 @@ export const loadProductsFailure = createAction(
 );
 
 
-// Add new rating
+// Add rating
 export const rateProduct = createAction(
   '[Products] Rate Product',
   props<{ productId: number; value: number }>()
