@@ -28,5 +28,15 @@ export const productsReducer = createReducer(
     ...state,
     error,
     loading: false
-  }))
+  })),
+
+  on(ProductsActions.rateProductSuccess, (state, { productId, value }) => ({
+  ...state,
+  list: state.list.map(p =>
+    p.id === productId
+      ? { ...p, _avg: (p._avg + value) / 2 } 
+      : p
+  )
+})),
+
 );

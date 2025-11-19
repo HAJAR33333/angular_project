@@ -14,3 +14,20 @@ export const loadProductsFailure = createAction(
   '[Products] Load Products Failure',
   props<{ error: any }>()
 );
+
+
+// Add new rating
+export const rateProduct = createAction(
+  '[Products] Rate Product',
+  props<{ productId: number; value: number }>()
+);
+
+export const rateProductSuccess = createAction(
+  '[Products] Rate Product Success',
+  props<{ productId: number; value: number }>()
+);
+
+export const rateProductFailure = createAction(
+  '[Products] Rate Product Failure',
+  props<{ error: any }>()
+);

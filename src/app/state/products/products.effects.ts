@@ -22,4 +22,19 @@ export class ProductsEffects {
       )
     )
   );
+
+
+
+  rateProduct$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(ProductsActions.rateProduct),
+    mergeMap(action =>
+      this.http.post<any>(`/api/products/${action.productId}/rate/`, { value: action.value }).pipe(
+        map(() => ProductsActions.rateProductSuccess({ productId: action.productId, value: action.value })),
+        catchError(err => of(ProductsActions.rateProductFailure({ error: err })))
+      )
+    )
+  )
+);
+
 }

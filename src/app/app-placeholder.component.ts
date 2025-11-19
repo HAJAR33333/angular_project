@@ -18,7 +18,6 @@ import { RouterLink } from '@angular/router';
         </button>
 
         <button routerLink="/login">Login</button>
-        <button routerLink="/shop/products">Products</button>
         <button routerLink="/shop/rating">Product Rating</button>
       </nav>
     </section>
