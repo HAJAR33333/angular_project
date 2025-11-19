@@ -10,18 +10,19 @@ export class ProductsEffects {
   private http = inject(HttpClient);
 
   loadProducts$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductsActions.loadProducts),
-      mergeMap(action =>
-        this.http.get<{ count: number; results: any[] }>(
-          `/api/products/?page=${action.page}&page_size=${action.pageSize}&min_rating=${action.minRating}&ordering=${action.ordering}`
-        ).pipe(
-          map(res => ProductsActions.loadProductsSuccess({ data: res })),
-          catchError(err => of(ProductsActions.loadProductsFailure({ error: err })))
-        )
+  this.actions$.pipe(
+    ofType(ProductsActions.loadProducts),
+    mergeMap(action =>
+      this.http.get<{ count: number; results: any[] }>(
+        `/api/products/?page=${action.page}&page_size=${action.pageSize}&min_rating=${action.minRating}&ordering=${action.ordering}`
+      ).pipe(
+        map(res => ProductsActions.loadProductsSuccess({ data: res })),
+        catchError(err => of(ProductsActions.loadProductsFailure({ error: err })))
       )
     )
-  );
+  )
+);
+
 
 
 

@@ -5,38 +5,40 @@ export interface ProductsState {
   list: any[];
   loading: boolean;
   error: string | null;
+  page: number;
+  pageSize: number;
+  count: number;
 }
 
 export const initialState: ProductsState = {
   list: [],
   loading: false,
-  error: null
+  error: null,
+  page: 1,
+  pageSize: 10,
+  count: 0
 };
 
 export const productsReducer = createReducer(
   initialState,
-  on(ProductsActions.loadProducts, (state) => ({
+
+  on(ProductsActions.loadProducts, (state, { page, pageSize }) => ({
     ...state,
-    loading: true
+    loading: true,
+    page,
+    pageSize
   })),
+
   on(ProductsActions.loadProductsSuccess, (state, { data }) => ({
     ...state,
-    list: data.results, 
-    loading: false
+    loading: false,
+    list: data.results,
+    count: data.count
   })),
+
   on(ProductsActions.loadProductsFailure, (state, { error }) => ({
     ...state,
-    error,
-    loading: false
-  })),
-
-  on(ProductsActions.rateProductSuccess, (state, { productId, value }) => ({
-  ...state,
-  list: state.list.map(p =>
-    p.id === productId
-      ? { ...p, _avg: (p._avg + value) / 2 } 
-      : p
-  )
-})),
-
+    loading: false,
+    error
+  }))
 );
