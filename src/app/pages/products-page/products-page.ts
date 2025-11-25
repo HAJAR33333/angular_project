@@ -13,11 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { addToCart } from '../../state/carte/cart.actions';
+import { selectCartCount } from '../../state/carte/cart.selectors'; 
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 @Component({
   standalone: true,
   selector: 'app-products-page',
-  imports: [CommonModule, MatCardModule, FormsModule, RouterLink, MatButtonModule],
+  imports: [CommonModule, MatCardModule, FormsModule, RouterLink, MatButtonModule, MatBadgeModule ],
   template: `
     <section style="min-height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f3e8f7;">
       <mat-card style="
@@ -73,6 +76,13 @@ import { addToCart } from '../../state/carte/cart.actions';
           >
             Product Rating
           </button>
+
+            <!-- Bouton Panier -->
+          <button mat-raised-button routerLink="/shop/cart" 
+                  style="background-color:#8c3db5ff; color:white; font-weight:500;"
+                  matBadge="{{ cartCount$ | async }}" matBadgeColor="warn">
+            Panier
+          </button>
         </div>
 
         <!-- LISTE PRODUITS -->
@@ -85,7 +95,7 @@ import { addToCart } from '../../state/carte/cart.actions';
               mat-raised-button 
               color="accent" 
               style="margin-top:10px;"
-              (click)="addToCart(p.id)">
+              (click)="addToCart(p.id, p.price)">
               Ajouter au panier
             </button>
           </mat-card>
@@ -112,6 +122,8 @@ export class ProductsPageComponent implements OnInit {
   private store = inject(Store);
 
   products$ = this.store.select(productsSelector);
+  cartCount$ = this.store.select(selectCartCount);
+
 
   // Pagination
   page = 1;
@@ -169,7 +181,7 @@ export class ProductsPageComponent implements OnInit {
   leave(event: any) {
     event.target.style.transform = 'scale(1)';
   }
-  addToCart(productId: number) {
-  this.store.dispatch(addToCart({ productId }));
+  addToCart(productId: number, price: number) {
+  this.store.dispatch(addToCart({ productId , price }));
 }
 }

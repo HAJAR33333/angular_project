@@ -5,7 +5,7 @@ import { addToCart, removeFromCart, updateQuantity, clearCart } from './cart.act
 export const cartReducer = createReducer(
   initialCartState,
 
-  on(addToCart, (state, { productId }) => {
+  on(addToCart, (state, { productId, price }) => { 
     const exists = state.items.find((i) => i.productId === productId);
     if (exists) {
       return {
@@ -17,7 +17,7 @@ export const cartReducer = createReducer(
     }
     return {
       ...state,
-      items: [...state.items, { productId, quantity: 1 }],
+      items: [...state.items, { productId, quantity: 1, price }], 
     };
   }),
 

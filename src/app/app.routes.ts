@@ -8,6 +8,8 @@ import { AppPlaceholderComponent } from './app-placeholder.component';
 import { LoginPageComponent } from './pages/login-page/login-page';  
 import { ProductsPageComponent } from './pages/products-page/products-page';
 import { ProductRatingPageComponent } from './pages/product-rating-page/product-rating-page';
+import { Step1SummaryComponent } from './pages/checkout/step1-summary.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
 
 
 export const routes: Routes = [
@@ -20,5 +22,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'shop/products', component: ProductsPageComponent },
   { path: 'shop/rating', component: ProductRatingPageComponent },
+  { path: 'checkout/step1', component: Step1SummaryComponent },
+  { path: 'shop/cart', component: CartPageComponent },
+  { path: 'checkout/step1', component: Step1SummaryComponent },
   { path: '**', redirectTo: '' },
 ];

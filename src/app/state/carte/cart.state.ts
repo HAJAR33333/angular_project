@@ -1,6 +1,7 @@
 export interface CartItem {
   productId: number;
   quantity: number;
+  price: number; 
 }
 
 export interface CartState {
@@ -8,5 +9,5 @@ export interface CartState {
 }
 
 export const initialCartState: CartState = {
-  items: [],
+  items: []
 };
