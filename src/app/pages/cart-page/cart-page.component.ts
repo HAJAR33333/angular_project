@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-cart-page',
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, RouterModule     ],
   template: `
     <section style="min-height:100vh; display:flex; justify-content:center; align-items:flex-start; background-color:#f3e8f7; padding-top:20px;">
       <mat-card style="padding:20px; max-width:600px; width:100%; background-color:#e6cbe3ff; border-radius:12px;">
@@ -33,7 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 
             <div style="margin-top:16px; display:flex; gap:10px;">
               <button mat-raised-button color="primary" (click)="clear()">Vider le panier</button>
-              <button mat-raised-button color="accent" routerLink="/shop/checkout/step1">Passer à la commande</button>
+              <button mat-raised-button color="accent" routerLink="/checkout/step1">Passer à la commande</button>
             </div>
           </div>
         </div>

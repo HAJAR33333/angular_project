@@ -22,7 +22,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'shop/products', component: ProductsPageComponent },
   { path: 'shop/rating', component: ProductRatingPageComponent },
-  { path: 'checkout/step1', component: Step1SummaryComponent },
   { path: 'shop/cart', component: CartPageComponent },
   { path: 'checkout/step1', component: Step1SummaryComponent },
   { path: '**', redirectTo: '' },
