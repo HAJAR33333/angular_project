@@ -12,7 +12,7 @@ import { Step1SummaryComponent } from './pages/checkout/step1-summary.component'
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { Step2AddressComponent } from './pages/checkout/step2-address.component';
 import { Step3ConfirmComponent } from './pages/checkout/step3-confirm.component';
-
+import { OrderSuccessComponent } from './pages/checkout/OrderSuccessComponent';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -28,5 +28,6 @@ export const routes: Routes = [
   { path: 'checkout/step1', component: Step1SummaryComponent },
   { path: 'checkout/step2', component: Step2AddressComponent },
   { path: 'checkout/step3', component: Step3ConfirmComponent },
+  { path: 'checkout/success', component: OrderSuccessComponent },
   { path: '**', redirectTo: '' },
 ];

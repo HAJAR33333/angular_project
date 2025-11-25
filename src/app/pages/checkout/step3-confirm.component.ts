@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectCartItems, selectCartTotal } from '../../state/carte/cart.selectors';
 import { clearCart } from '../../state/carte/cart.actions';
@@ -51,12 +51,15 @@ import { clearCart } from '../../state/carte/cart.actions';
 export class Step3ConfirmComponent {
 
   private store = inject(Store);
+private router = inject(Router);
+
 
   items$ = this.store.select(selectCartItems);
   total$ = this.store.select(selectCartTotal);
 
   confirmOrder() {
     this.store.dispatch(clearCart());
-    alert(" Commande confirmée avec succès !");
+    //alert(" Commande confirmée avec succès !");
+    this.router.navigate(['/checkout/success']);
   }
 }
