@@ -53,4 +53,68 @@ export const handlers = [
       { status: 200 },
     );
   }),
+  // --- GET /api/products/:id/  -> full product details
+http.get(`${API}/products/:id/`, async ({ params }) => {
+  const id = Number(params['id']);
+  const p = products.find((x) => x.id === id);
+  if (!p) return HttpResponse.json({ detail: 'Not found.' }, { status: 404 });
+  return HttpResponse.json(p, { status: 200 });
+}),
+
+
+// --- POST /api/cart/validate/  -> return summary price
+http.post(`${API}/cart/validate/`, async ({ request }) => {
+const body = (await request.json()) as { items: { id: number; qty: number }[] };
+
+  if (!body?.items || !Array.isArray(body.items)) {
+    return HttpResponse.json(
+      { detail: 'Invalid payload' },
+      { status: 400 },
+    );
+  }
+
+  let total = 0;
+
+  body.items.forEach((item: { id: number; qty: number }) => {
+    const product = products.find((p) => p.id === item.id);
+    if (product) total += product.price * item.qty;
+  });
+
+  return HttpResponse.json(
+    {
+      success: true,
+      summary: {
+        total,
+        currency: 'EUR',
+        delivery: total > 500 ? 0 : 12.5,
+      },
+    },
+    { status: 200 },
+  );
+}),
+
+
+// --- POST /api/order/  -> generate fake order confirmation
+http.post(`${API}/order/`, async ({ request }) => {
+const body = (await request.json()) as { cart: { id: number; qty: number ; price: number }[] };
+
+  if (!body?.cart || !Array.isArray(body.cart)) {
+    return HttpResponse.json(
+      { detail: 'Invalid order payload' },
+      { status: 400 },
+    );
+  }
+
+  const orderId = Math.floor(Math.random() * 900000) + 100000;
+
+  return HttpResponse.json(
+    {
+      success: true,
+      order_id: orderId,
+      message: 'Order has been successfully placed.',
+    },
+    { status: 200 },
+  );
+}),
+
 ];
