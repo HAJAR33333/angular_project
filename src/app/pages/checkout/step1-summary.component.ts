@@ -34,7 +34,7 @@ import { selectCartItems, selectCartTotal } from '../../state/carte/cart.selecto
 
           <div style="margin-top:16px; display:flex; gap:10px; justify-content:flex-end;">
             <button mat-raised-button routerLink="/shop/cart" color="warn">Retour au panier</button>
-            <button mat-raised-button routerLink="/shop/checkout/step2" color="primary">Suivant → Adresse</button>
+            <button mat-raised-button routerLink="/checkout/step2" color="primary">Suivant → Adresse</button>
           </div>
         </div>
       </div>
