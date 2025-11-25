@@ -11,6 +11,7 @@ import { ProductRatingPageComponent } from './pages/product-rating-page/product-
 import { Step1SummaryComponent } from './pages/checkout/step1-summary.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { Step2AddressComponent } from './pages/checkout/step2-address.component';
+import { Step3ConfirmComponent } from './pages/checkout/step3-confirm.component';
 
 
 export const routes: Routes = [
@@ -26,5 +27,6 @@ export const routes: Routes = [
   { path: 'shop/cart', component: CartPageComponent },
   { path: 'checkout/step1', component: Step1SummaryComponent },
   { path: 'checkout/step2', component: Step2AddressComponent },
+  { path: 'checkout/step3', component: Step3ConfirmComponent },
   { path: '**', redirectTo: '' },
 ];
