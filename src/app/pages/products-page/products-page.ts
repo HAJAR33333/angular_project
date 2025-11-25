@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { addToCart } from '../../state/carte/cart.actions';
 
 @Component({
   standalone: true,
@@ -80,6 +81,13 @@ import { MatButtonModule } from '@angular/material/button';
             <h3 style="color:#570072ff;">{{ p.name }}</h3>
             <p>Price: {{ p.price }} €</p>
             <p>Created: {{ p.created_at }}</p>
+            <button 
+              mat-raised-button 
+              color="accent" 
+              style="margin-top:10px;"
+              (click)="addToCart(p.id)">
+              Ajouter au panier
+            </button>
           </mat-card>
         </div>
 
@@ -161,4 +169,7 @@ export class ProductsPageComponent implements OnInit {
   leave(event: any) {
     event.target.style.transform = 'scale(1)';
   }
+  addToCart(productId: number) {
+  this.store.dispatch(addToCart({ productId }));
+}
 }
