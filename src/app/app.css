@@ -1,4 +1,9 @@
 /* app shell */
 main {
   display: block;
+  background-image: url('/login-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
 }

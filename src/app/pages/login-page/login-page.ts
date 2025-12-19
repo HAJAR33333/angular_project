@@ -20,54 +20,111 @@ import { MatCardModule } from '@angular/material/card';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule 
+    MatCardModule
   ],
   template: `
-    <section style="min-height: 100vh; display:flex; justify-content:center; align-items:center; background-color:#f3e8f7;">
-      <mat-card style="
-        padding: 30px;
-        max-width: 400px;
-        width: 100%;
-        background-color: #e6cbe3ff;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        border-radius: 12px;
-        text-align: center;
-      ">
-        <h2 style="color:#bc7ad6ff; font-size:2rem; margin-bottom:20px;">Login</h2>
+    <section class="page">
+      <div class="overlay"></div>
+
+      <mat-card class="login-card">
+        <h2>Veuillez vous conneter pour passer au panier </h2>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <mat-form-field appearance="fill" style="width:100%; margin-bottom:15px;">
+          <mat-form-field appearance="fill">
             <mat-label>Username</mat-label>
             <input matInput formControlName="username" />
           </mat-form-field>
 
-          <mat-form-field appearance="fill" style="width:100%; margin-bottom:20px;">
+          <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" />
           </mat-form-field>
 
-          <button mat-raised-button
-                  type="submit"
-                  [disabled]="loginForm.invalid"
-                  style="
-                    width:100%;
-                    background-color:#8c3db5ff;
-                    color:white;
-                    font-weight:500;
-                    transition: transform 0.2s;
-                  "
-                  (mouseenter)="hover($event)" 
-                  (mouseleave)="leave($event)">
+          <button
+            mat-raised-button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            class="btn-login"
+            (mouseenter)="hover($event)"
+            (mouseleave)="leave($event)"
+          >
             Login
           </button>
         </form>
 
-        <p *ngIf="error$ | async as error" style="color:red; margin-top:15px;">
+        <p *ngIf="error$ | async as error" class="error">
           {{ error }}
         </p>
       </mat-card>
     </section>
-  `
+  `,
+  styles: [`
+    .page {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('/login-bg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+      border-radius: 14px;
+      background: rgba(232, 222, 209, 0.9); 
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
+      text-align: center;
+    }
+
+    h2 {
+      margin: 0 0 20px 0;
+      font-size: 2rem;
+      color: #ffff;
+    }
+
+    .mat-form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      font-weight: 500;
+      color: #FFFFFF !important; 
+      background-color: #A67C52 !important; 
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-login:hover {
+      color: #A67C52;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .error {
+      margin-top: 16px;
+      color: #D32F2F; 
+      font-size: 0.9rem;
+    }
+
+    input.mat-input-element {
+      color: #2D2D2D; 
+    }
+  `]
 })
 export class LoginPageComponent implements OnInit {
   loginForm;
@@ -83,18 +140,17 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
- ngOnInit() {
-  this.store.select(selectIsLoggedIn)
-    .pipe(
-      tap(loggedIn => {
-        if (loggedIn) {
-          this.router.navigate(['/shop/products'], { replaceUrl: true });
-        }
-      })
-    )
-    .subscribe();
-}
-
+  ngOnInit() {
+    this.store.select(selectIsLoggedIn)
+      .pipe(
+        tap(loggedIn => {
+          if (loggedIn) {
+            this.router.navigate(['/shop/cart'], { replaceUrl: true });
+          }
+        })
+      )
+      .subscribe();
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {
@@ -103,6 +159,7 @@ export class LoginPageComponent implements OnInit {
       this.store.dispatch(AuthActions.login({ username, password }));
     }
   }
+
   hover(event: any) {
     event.target.style.transform = 'scale(1.05)';
   }

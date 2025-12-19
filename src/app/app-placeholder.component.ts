@@ -1,52 +1,133 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatBadgeModule } from '@angular/material/badge'; 
-import { CommonModule } from '@angular/common'
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
   selector: 'app-placeholder',
-  imports: [CommonModule, RouterModule, MatButtonModule, MatCardModule, MatBadgeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule
+  ],
   template: `
-    <section style="min-height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f3e8f7;">
-      <mat-card style="padding: 30px; max-width: 600px; width: 100%; background-color: #e6cbe3ff; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-radius: 12px; text-align: center;">
-        <h2 style="color: #bc7ad6ff; font-size: 2.2rem; margin-bottom: 10px;">
-          App Shop — Placeholder
-        </h2>
-        <p style="color: #570072ff; font-size: 1rem; margin-bottom: 30px;">
-          Ici viendra l’UI cohérente (login, liste produits, avis...).
+    <section class="page">
+      <mat-card class="card">
+
+        <mat-icon class="icon">shopping_bag</mat-icon>
+
+        <h2>App Shop</h2>
+
+        <p class="subtitle">
+          Plateforme e-commerce moderne conçue pour tester l’architecture,
+          l’UI Material et les flux utilisateurs.
         </p>
 
-        <nav style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
-          <button mat-raised-button routerLink="/dev"
-            style="background-color: #bc7ad6ff; color: white; font-weight: 500; transition: transform 0.2s;"
-            (mouseenter)="hover($event)" (mouseleave)="leave($event)">
-            → Aller à la zone de tests
+        <ul class="features">
+          <li>✔ Authentification & rôles</li>
+          <li>✔ Catalogue produits</li>
+          <li>✔ Panier & commandes</li>
+          <li>✔ Zone développeur</li>
+        </ul>
+
+        <div class="actions">
+          <button mat-raised-button class="btn-login" routerLink="/shop/products">
+            Se connecter
           </button>
 
-          <button mat-raised-button routerLink="/"
-            style="background-color: #a95fc0ff; color: white; font-weight: 500; transition: transform 0.2s;"
-            (mouseenter)="hover($event)" (mouseleave)="leave($event)">
-            ← Retour accueil
+          <button mat-stroked-button class="btn-dev" routerLink="/dev">
+            Zone développeur
           </button>
+        </div>
 
-          <button mat-raised-button routerLink="/login"
-            style="background-color: #8c3db5ff; color: white; font-weight: 500; transition: transform 0.2s;"
-            (mouseenter)="hover($event)" (mouseleave)="leave($event)">
-            Login
-          </button>
-        </nav>
       </mat-card>
     </section>
   `,
-})
-export class AppPlaceholderComponent {
-  hover(event: any) {
-    event.target.style.transform = 'scale(1.05)';
-  }
-  leave(event: any) {
-    event.target.style.transform = 'scale(1)';
-  }
+  styles: [`
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('/login-bg.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
 }
+
+
+    .card {
+      max-width: 520px;
+      width: 100%;
+      padding: 32px;
+      text-align: center;
+      border-radius: 14px;
+      background: #e8ded1e6;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.88);
+    }
+
+    .icon {
+      font-size: 48px;
+      color: #A67C52;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 2rem;
+      color: #2D2D2D;
+    }
+
+    .subtitle {
+      margin: 16px 0 24px;
+      color: #8E8E8E;
+      font-size: 0.95rem;
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 28px;
+      color: #8E8E8E;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .features li {
+      margin: 6px 0;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-login{
+      color: #e2dcd3ff !important;
+      background-color: #A67C52 !important;
+    }
+
+    .btn-login:hover {
+      color: #A67C52 !important ;
+      background-color: transparent !important; 
+    }
+
+    .btn-dev{
+      color: #A67C52 !important;
+      background-color: rgba(255, 0, 0, 0);
+    }
+
+    .btn-dev:hover {
+      color: #e2dcd3ff !important ;
+      background-color: #A67C52 !important ;
+    }
+  `]
+})
+export class AppPlaceholderComponent {}
