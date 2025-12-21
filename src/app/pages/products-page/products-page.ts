@@ -13,9 +13,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { addToCart } from '../../state/carte/cart.actions';
-import { selectCartCount } from '../../state/carte/cart.selectors';
+import { selectCartCount} from '../../state/carte/cart.selectors';
+import { selectLoading, selectError } from '../../state/products/products.selectors';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { take } from 'rxjs/operators';
 
 @Component({
   standalone: true,
@@ -47,8 +53,8 @@ import { MatIconModule } from '@angular/material/icon';
           </label>
 
           <!-- <button mat-raised-button class="btn-rating" routerLink="/shop/rating">Product Rating</button> -->
-          <button mat-raised-button class="btn-cart" routerLink="/login" matBadge="{{ cartCount$ | async }}" matBadgeColor="warn">
-            Panier
+          <button mat-raised-button class="btn-cart" (click)="goToCart()" matBadge="{{ cartCount$ | async }}" matBadgeColor="warn">
+            Panier 🛒
           </button>
         </div>
 
@@ -64,7 +70,7 @@ import { MatIconModule } from '@angular/material/icon';
             </div>
 
           <button mat-raised-button class="btn-add" (click)="addToCart(p.id, p.price)">  Ajouter au panier  </button>
-</mat-card>
+        </mat-card>
 
         </div>
 
@@ -75,6 +81,27 @@ import { MatIconModule } from '@angular/material/icon';
 
         <p class="page-info">Page {{ page }} / {{ maxPage }}</p>
       </mat-card>
+
+    <div *ngIf="loading$ | async" class="skeleton-list">
+      <mat-card *ngFor="let i of [1,2,3,4,5]" class="skeleton-card"></mat-card>
+    </div>
+
+    <div *ngIf="error$ | async as error" class="error-state">
+      <p>{{ error }}</p>
+      <button mat-raised-button color="warn" (click)="load()">Réessayer</button>
+    </div>
+
+    <div *ngIf="!(loading$ | async) && (products$ | async)?.length === 0" class="empty-state">
+      Aucun produit ne correspond à vos filtres.
+    </div>
+    
+    <ng-container *ngIf="products$ | async as products">
+    <div *ngIf="!loading$ && products.length > 0" class="product-grid">
+    </div>
+  
+</ng-container>
+
+
     </section>
   `,
   styles: [`
@@ -85,7 +112,6 @@ import { MatIconModule } from '@angular/material/icon';
       justify-content: center;
       align-items: flex-start;
       padding: 40px 20px;
-      background-image: url('/login-bg.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -238,13 +264,47 @@ import { MatIconModule } from '@angular/material/icon';
       border-radius: 10px;
       background-color: #f3f3f3;
     }
+
+    .skeleton-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .skeleton-card {
+      height: 300px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .snackbar-warning {
+      background: #a67c52;
+      color: #ffffff;
+    }
+
+
   `]
 })
 export class ProductsPageComponent implements OnInit {
   private store = inject(Store);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+ private snackBar = inject(MatSnackBar);
 
   products$ = this.store.select(productsSelector);
   cartCount$ = this.store.select(selectCartCount);
+  loading$ = this.store.select(selectLoading);
+  error$ = this.store.select(selectError);
+  filter$ = new Subject<void>();
+
+
 
   page = 1;
   total = 0;
@@ -261,22 +321,41 @@ export class ProductsPageComponent implements OnInit {
       this.total = c;
       this.maxPage = Math.ceil(c / this.pageSize);
     });
-
+    this.filter$.pipe(debounceTime(400)).subscribe(() => this.load());
+    
+    this.route.queryParams.subscribe(params => {
+    this.page = +params['page'] || 1;
+    this.minRating = +params['minRating'] || 0;
+    this.ordering = params['ordering'] || '-created_at';
+    this.load();
+  });
     this.load();
   }
 
   load() {
-    this.store.dispatch(loadProducts({
+  this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: {
       page: this.page,
-      pageSize: this.pageSize,
       minRating: this.minRating,
       ordering: this.ordering
-    }));
-  }
+    },
+    queryParamsHandling: 'merge'
+  });
+
+  this.store.dispatch(loadProducts({
+    page: this.page,
+    pageSize: this.pageSize,
+    minRating: this.minRating,
+    ordering: this.ordering
+  }));
+}
+
 
   applyFilters() {
     this.page = 1;
     this.load();
+    this.filter$.next();
   }
 
   next() {
@@ -318,4 +397,21 @@ export class ProductsPageComponent implements OnInit {
   );
 }
 
+goToCart() {
+  this.cartCount$.pipe(take(1)).subscribe(count => {
+    if (!count || count === 0) {
+      this.snackBar.open(
+        'Votre panier est vide 🛒',
+        'OK',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-warning']
+        }
+      );
+      return;
+    }
+
+    this.router.navigate(['/shop/cart']);
+  });
+}
 }

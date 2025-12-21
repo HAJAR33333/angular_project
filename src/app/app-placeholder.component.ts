@@ -37,7 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
 
         <div class="actions">
           <button mat-raised-button class="btn-login" routerLink="/shop/products">
-            Se connecter
+            Decouvrir les produits
           </button>
 
           <button mat-stroked-button class="btn-dev" routerLink="/dev">
@@ -54,7 +54,6 @@ import { MatIconModule } from '@angular/material/icon';
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url('/login-bg.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -68,7 +67,7 @@ import { MatIconModule } from '@angular/material/icon';
       text-align: center;
       border-radius: 14px;
       background: #e8ded1e6;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.88);
+      box-shadow: 0 0.5px 10px  #00E5FF;
     }
 
     .icon {
@@ -80,7 +79,7 @@ import { MatIconModule } from '@angular/material/icon';
     h2 {
       margin: 0;
       font-size: 2rem;
-      color: #2D2D2D;
+      color: #ffff;
     }
 
     .subtitle {

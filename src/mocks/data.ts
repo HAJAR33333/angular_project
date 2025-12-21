@@ -186,7 +186,7 @@ export const products: Product[] = [
     price: 120.99,
     created_at: '2025-04-20T15:00:00Z',
     owner_id: 17,
-    ratings: [{ user_id: 9, value: 5 }],
+    ratings: [{ user_id: 9, value: 1 }],
     imageUrl: '/manteau-long.png'
   }
 ];

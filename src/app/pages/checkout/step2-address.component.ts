@@ -147,11 +147,10 @@ export class Step2AddressComponent implements OnInit {
 
   submit() {
     if (this.addressForm.valid) {
-      // Ici tu peux stocker les infos dans le store ou service
       console.log(this.addressForm.value);
       this.router.navigate(['/checkout/step3']);
     } else {
-      this.addressForm.markAllAsTouched(); // montre tous les messages d'erreur
+      this.addressForm.markAllAsTouched();
     }
   }
 }

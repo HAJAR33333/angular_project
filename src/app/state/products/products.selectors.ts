@@ -22,3 +22,13 @@ export const selectTotalCount = createSelector(
   selectProductsState,
   state => state.count
 );
+
+export const selectLoading = createSelector(
+  selectProductsState,
+  (state: ProductsState) => state.loading
+);
+
+export const selectError = createSelector(
+  selectProductsState,
+  (state: ProductsState) => state.error
+);
